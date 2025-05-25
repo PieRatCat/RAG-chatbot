@@ -1,0 +1,2 @@
+chatbot_db/**/*.bin filter=lfs diff=lfs merge=lfs -text
+chatbot_db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
