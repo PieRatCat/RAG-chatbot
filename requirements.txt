@@ -1,5 +1,4 @@
 streamlit
-os
 langchain_google_genai
 langchain_chroma
 langchain_core.prompts
