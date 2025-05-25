@@ -1,6 +1,2 @@
 streamlit
-langchain_google_genai
-langchain_chroma
-langchain_core.prompts
-langchain_core.runnables
-langchain_core.output_parsers
+langchain
