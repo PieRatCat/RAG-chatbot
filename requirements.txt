@@ -1,2 +1,4 @@
 streamlit
 langchain
+langchain-google-genai
+langchain_chroma
