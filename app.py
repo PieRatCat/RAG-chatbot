@@ -130,7 +130,35 @@ dragon_age_theme_css = """
 
 </style>
 """
+# --- Streamlit App UI ---
+st.set_page_config(page_title="Brother Genitivi's Dragon Age Archives", layout="wide", initial_sidebar_state="expanded")
 st.markdown(dragon_age_theme_css, unsafe_allow_html=True)
+# --- Disclaimer Text ---
+DISCLAIMER_TEXT = (
+    "This is a non-commercial student project created for educational purposes. "
+    "The chatbot's knowledge is based on Dragon Age game guides, the copyrights for which "
+    "belong to their respective owners (BioWare/EA). No copyright infringement is intended."
+)
+PROJECT_ABOUT_TEXT = (
+    "This chatbot is a project for the DS24 Deep Learning course, demonstrating a "
+    "Retrieval Augmented Generation (RAG) system with Google's Gemini models and LangChain. "
+    "It answers questions based on Dragon Age game guides, in the persona of Brother Genitivi."
+)
+
+# --- Sidebar ---
+with st.sidebar:
+    st.header("About this Archive")
+    st.info(PROJECT_ABOUT_TEXT)
+    st.markdown("---")
+    st.header("Disclaimer")
+    st.warning(DISCLAIMER_TEXT)
+    st.markdown("---")
+    st.caption(f"Powered by LangChain & Google Gemini.")
+
+# --- Main Chat Interface ---
+st.title("Brother Genitivi's Dragon Age Archives")
+st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your queries about the Dragon Age, and I shall consult my records.")
+
 
 # --- Configuration ---
 if "GOOGLE_API_KEY" not in os.environ:
@@ -143,17 +171,6 @@ CHOSEN_EMBEDDING_MODEL = "models/text-embedding-004"
 GENERATION_MODEL_NAME = "gemini-2.0-flash"
 CHROMA_PERSIST_DIRECTORY = "./chatbot_db"
 
-# --- Disclaimer Text ---
-DISCLAIMER_TEXT = (
-    "This is a non-commercial student project created for educational purposes. "
-    "The chatbot's knowledge is based on Dragon Age game guides, the copyrights for which "
-    "belong to their respective owners (BioWare/EA). No copyright infringement is intended."
-)
-PROJECT_ABOUT_TEXT = (
-    "This chatbot is a project for the DS24 Deep Learning course, demonstrating a "
-    "Retrieval Augmented Generation (RAG) system with Google's Gemini models and LangChain. "
-    "It answers questions based on Dragon Age game guides, in the persona of Brother Genitivi."
-)
 
 @st.cache_resource # Cache the RAG chain to avoid re-initialising on every interaction
 def get_rag_chain():
@@ -259,22 +276,7 @@ Answer the user's question based *only* on the provided context below.
         st.error(f"Failed to initialise the chatbot's knowledge core. Error: {type(e).__name__}. Please check logs or contact support.")
         return None
 
-# --- Streamlit App UI ---
-st.set_page_config(page_title="Brother Genitivi's Dragon Age Archives", layout="wide", initial_sidebar_state="expanded")
 
-# --- Sidebar ---
-with st.sidebar:
-    st.header("About this Archive")
-    st.info(PROJECT_ABOUT_TEXT)
-    st.markdown("---")
-    st.header("Disclaimer")
-    st.warning(DISCLAIMER_TEXT)
-    st.markdown("---")
-    st.caption(f"Powered by LangChain & Google Gemini.")
-
-# --- Main Chat Interface ---
-st.title("Brother Genitivi's Dragon Age Archives")
-st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your queries about the Dragon Age, and I shall consult my records.")
 
 # Attempt to load the RAG chain
 # This will use the cached version after the first successful load
