@@ -193,38 +193,41 @@ Answer the user's question based *only* on the provided context below.
 rag_chain_instance = get_rag_chain()
 
 if rag_chain_instance:
-    # Initialise chat history in session state if it doesn't exist
     if "messages" not in st.session_state:
-        st.session_state.messages = [{"role": "assistant", "content": "Greetings! I am Brother Genitivi. How may I assist you with your inquiries into the annals of Thedas today?"}]
+        st.session_state.messages = [{"role": "assistant", "content": "Greetings! I am Brother Genitivi. How may I assist you with your inquiries into the annals of Thedas today?", "avatar": genitivi_avatar_url}]
 
     # Display prior chat messages
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        # Use the avatar from the message if it exists, otherwise default based on role
+        current_avatar = message.get("avatar")
+        if not current_avatar: # Fallback if avatar key is missing from older messages
+            current_avatar = bot_avatar if message["role"] == "assistant" else user_avatar
+        
+        with st.chat_message(message["role"], avatar=current_avatar):
             st.markdown(message["content"])
 
-    # Get user input
     if user_query := st.chat_input("Ask Brother Genitivi your question..."):
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": user_query})
+        # Add user message to chat history with avatar
+        st.session_state.messages.append({"role": "user", "content": user_query, "avatar": user_avatar})
         # Display user message
         with st.chat_message("user", avatar=user_avatar):
             st.markdown(user_query)
 
-        # Display Brother Genitivi's thinking message and get response
         with st.chat_message("assistant", avatar=bot_avatar):
             with st.spinner("Brother Genitivi is diligently consulting his extensive records and codices..."):
                 try:
-                    response = rag_chain_instance.invoke(user_query)
+                    if rag_chain_instance:
+                        response = rag_chain_instance.invoke(user_query) # Invoke the RAG chain with the user's query
+                        ai_response = response.get('answer', "My apologies, I seem to have misplaced my notes on that particular matter.")
+                    else:
+                        ai_response = "Regrettably, my knowledge archives are currently unavailable."
+                except Exception as e_invoke:    
                     ai_response = response.get('answer', "My apologies, I seem to have misplaced my notes on that particular matter.")
-                except Exception as e_invoke:
-                    ai_response = f"Regrettably, a momentary lapse in my scholarly focus (an error occurred): {type(e_invoke).__name__}."
-                    st.error(ai_response) # Display error in chat too
-                    print(f"Error during RAG chain invocation: {e_invoke}") # Log to console
-                
                 st.markdown(ai_response)
         
-        # Add AI response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": ai_response})
+        # Add AI response to chat history with avatar
+        st.session_state.messages.append({"role": "assistant", "content": ai_response, "avatar": bot_avatar})
+
 else:
     # This message is shown if get_rag_chain() returned None (i.e., failed to initialize)
     st.error("The archives seem to be in disarray (chatbot could not be initialized). Please ensure the GOOGLE_API_KEY is correctly set in Streamlit secrets and the 'chatbot_db' directory is present and correctly populated.")

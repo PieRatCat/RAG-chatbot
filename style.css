@@ -153,10 +153,26 @@ div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageCont
     border-color: #D4AF37; /* Gold border for assistant */
 }
 
-/* Chat Avatar Styling */
+/* Chat Avatar Styling - Updated for IMAGES */
 div[data-testid="chat-avatar-container"] {
-    background-color: #D4AF37 !important; /* Gold background for avatar circle */
-    color: #1A1D24 !important; /* Dark text/emoji color for avatar */
+    background-color: transparent !important; /* Make background transparent if PNGs have transparency */
+    /* Or keep a themed background like #D4AF37 if your icons look good on it */
+    /* background-color: #D4AF37 !important; */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Keeps images neatly in the circle */
+    width: 2.5rem; /* Default Streamlit avatar size */
+    height: 2.5rem; /* Default Streamlit avatar size */
+    padding: 0; /* Remove padding if any was set for emoji backgrounds */
+}
+
+div[data-testid="chat-avatar-container"] img { /* Style the image itself within the avatar container */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Or 'contain' if 'cover' crops too much - depends on icon aspect ratio */
+    border-radius: 50%; /* Ensure image itself is circular if it's square */
 }
 
 /* Spinner text color */
