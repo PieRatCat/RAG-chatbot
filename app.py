@@ -61,8 +61,8 @@ with st.sidebar:
     st.caption(f"Powered by LangChain & Google Gemini.") # This will use default caption styling unless you target it
 
 # --- URLs for avatar icons ---
-bot_avatar = "icon1.png"
-user_avatar = "icon2.png"
+bot_avatar = "icon2.png"
+user_avatar = "icon1.png"
 
 
 # --- Main Chat Interface ---
@@ -194,7 +194,7 @@ rag_chain_instance = get_rag_chain()
 
 if rag_chain_instance:
     if "messages" not in st.session_state:
-        st.session_state.messages = [{"role": "assistant", "content": "Greetings! I am Brother Genitivi. How may I assist you with your inquiries into the annals of Thedas today?", "avatar": genitivi_avatar_url}]
+        st.session_state.messages = [{"role": "assistant", "content": "Greetings! I am Brother Genitivi. How may I assist you with your inquiries into the annals of Thedas today?", "avatar": bot_avatar}]
 
     # Display prior chat messages
     for message in st.session_state.messages:
