@@ -47,7 +47,7 @@ DISCLAIMER_TEXT = (
 PROJECT_ABOUT_TEXT = (
     "This chatbot is a project for the DS24 Deep Learning course, demonstrating a "
     "Retrieval Augmented Generation (RAG) system with Google's Gemini models and LangChain. "
-    "It answers questions about the Dragon Age games, from Origins to Inquisition, in the persona of Brother Genitivi." 
+    "It answers questions about the Dragon Age games, from Origins to Inquisition, in the persona of the Chantry scholar Brother Genitivi." 
     )
 
 # --- Sidebar ---
