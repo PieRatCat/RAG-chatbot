@@ -16,73 +16,98 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 
 # --- Style Configuration ---
+# In your app.py, near the top
+
 dragon_age_theme_css = """
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English&display=swap');
 
-    /* Base App Styling - Targeting Streamlit's main block container */
+    /* Base App Styling */
     .stApp {
-        background-color: #2a201b; /* Very dark, slightly warm brown */
-        background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)),
-                          url("https://www.transparenttextures.com/patterns/old-wall.png"); /* Subtle texture */
-        color: #e0dacd; /* Aged parchment text */
+        background-color: #1C1C1C; /* Very dark grey */
+        color: #EAEAEA; /* Light grey/Off-white text */
         font-family: 'IM Fell English', serif;
     }
 
     /* Sidebar Styling */
-    .st-emotion-cache-16txtl3 { /* This selector targets the sidebar; may change with Streamlit versions */
-        background-color: #1e1a16 !important; /* Even darker brown for sidebar */
-        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)),
-                          url("https://www.transparenttextures.com/patterns/worn-dots.png"); /* Different subtle texture */
+    /* Attempt to target sidebar specifically for background */
+    section[data-testid="stSidebar"] > div:first-child {
+        background-color: #161616 !important; /* Slightly darker grey for sidebar */
     }
-    .st-emotion-cache-16txtl3 h1, 
-    .st-emotion-cache-16txtl3 h2, 
-    .st-emotion-cache-16txtl3 h3,
-    .st-emotion-cache-16txtl3 .stMarkdown p { /* Targeting text within sidebar */
-        color: #c0a062 !important; /* Muted gold for sidebar text/headers */
+    
+    /* Sidebar Headers and Text */
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] .stMarkdown p,
+    section[data-testid="stSidebar"] label { /* For widget labels */
+        color: #EAEAEA !important; /* Light grey text in sidebar */
         font-family: 'Cinzel', serif;
     }
-    .st-emotion-cache-16txtl3 .stAlert, .st-emotion-cache-16txtl3 .stInfo { /* Sidebar info/warning boxes */
-        background-color: rgba(60, 50, 40, 0.7) !important;
-        border: 1px solid #c0a062;
-        color: #e0dacd !important;
+
+    /* Sidebar st.info() and st.warning() boxes */
+    section[data-testid="stSidebar"] .stAlert {
+        background-color: rgba(70, 40, 40, 0.6) !important; /* Dark red, semi-transparent */
+        border: 1px solid #9D2A2A !important; /* Muted Deep Red border */
+        color: #EAEAEA !important; /* Text color for alerts */
+        border-radius: 0.3rem;
+    }
+    /* Ensure icon color in sidebar alerts also fits if possible */
+    section[data-testid="stSidebar"] .stAlert svg {
+        fill: #EAEAEA !important;
     }
 
 
     /* Main Content Headers */
-    h1, h2, h3 {
-        color: #8c1c1c; /* Deep Chantry red for main headers */
+    .main h1, .main h2, .main h3 { /* More specific selectors for main content if needed */
+        color: #9D2A2A; /* Muted Deep Red for main headers */
         font-family: 'Cinzel', serif;
-        border-bottom: 1px solid #c0a062;
+        border-bottom: 1px solid #7C2222; /* Darker Muted Red border */
         padding-bottom: 0.3em;
     }
     .stCaption {
-        color: #b0a090 !important; /* Lighter, muted color for captions */
+        color: #AAAAAA !important; /* Lighter grey for captions */
     }
 
+    /* Overall Chat Area - if you want it distinct from main app background */
+    /* This selector might need adjustment based on Streamlit's evolving structure */
+    /* For now, chat messages will sit on the .stApp background */
+    /* If you want a distinct chat area background:
+    div.stChatFloatingInputContainer + div > div > div {
+        background-color: #2B2B2B; /* Dark grey for chat area */
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+    */
+
     /* Chat Input Area */
-    .stChatInputContainer { /* Target the container of the chat input */
-        background-color: #1e1a16; /* Darker base for input area */
-        border-top: 2px solid #c0a062 !important;
+    .stChatInputContainer { 
+        background-color: #161616; /* Darker base for input area */
+        border-top: 2px solid #9D2A2A !important;
     }
-    .st-emotion-cache-13y9j5f /* Actual input field, may change */ {
-        background-color: #3b3129 !important;
-        color: #e0dacd !important;
-        border: 1px solid #c0a062 !important;
+    /* Actual input field - selector might vary slightly with Streamlit versions */
+    div[data-testid="stChatInputTextArea"] textarea {
+        background-color: #2B2B2B !important;
+        color: #EAEAEA !important;
+        border: 1px solid #7C2222 !important;
         border-radius: 5px !important;
     }
-    .st-emotion-cache-13y9j5f::placeholder {
-        color: #b0a090 !important;
+    div[data-testid="stChatInputTextArea"] textarea::placeholder {
+        color: #AAAAAA !important;
     }
-    .stButton>button { /* Send button */
-        background-color: #8c1c1c !important;
-        color: #e0dacd !important;
-        border: 1px solid #c0a062 !important;
+    /* Send button - selector might vary */
+    button[data-testid="stChatInputSubmitButton"] { 
+        background-color: #9D2A2A !important;
+        color: #EAEAEA !important;
+        border: 1px solid #7C2222 !important;
         border-radius: 5px !important;
     }
-    .stButton>button:hover {
-        background-color: #a82b2b !important;
-        border-color: #d4af37 !important;
+    button[data-testid="stChatInputSubmitButton"]:hover {
+        background-color: #B83A3A !important; /* Slightly lighter red on hover */
+        border-color: #9D2A2A !important;
+    }
+    button[data-testid="stChatInputSubmitButton"] svg { /* Ensure send button icon is visible */
+        fill: #EAEAEA !important;
     }
 
 
@@ -97,35 +122,36 @@ dragon_age_theme_css = """
 
     /* User chat messages */
     div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="User message"]) {
-        background-color: #4a3f35; /* User chat BG */
-        border-color: #c0a062;
+        background-color: #3D3D3D; /* Medium-dark grey for user */
+        border-color: #7C2222; /* Darker red border */
     }
 
     /* Assistant chat messages */
     div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="Assistant message"]) {
-        background-color: #5a4a3a; /* Assistant chat BG - slightly lighter/warmer */
-        border-color: #8c1c1c;
+        background-color: #333333; /* Slightly darker grey for assistant */
+        border-color: #9D2A2A; /* Muted deep red border */
     }
     
     /* Styling for the avatar icons in chat messages */
-    .stChatMessage .st-emotion-cache- NNNN { /* You'll need to inspect to get the exact class for the avatar circle */
-        /* background-color: #c0a062 !important; */ /* Example: Gold background for avatar circle */
-        /* color: #1e1a16 !important; */ /* Dark text for emoji in avatar */
+    /* This selector is more robust for Streamlit 1.18+ for default emoji avatars */
+    div[data-testid="chat-avatar-container"] {
+        background-color: #9D2A2A !important; /* Muted red background for avatar circle */
+        color: #EAEAEA !important; /* Light text/emoji color for avatar */
     }
 
     /* Spinner text color */
-    .stSpinner > div > div {
-        color: #c0a062 !important; /* Gold for spinner text */
+    .stSpinner > div > div { /* This targets the text node of the spinner */
+        color: #9D2A2A !important; /* Muted red for spinner text */
     }
 
     /* Markdown links */
     a, a:visited {
-        color: #d4af37 !important; /* Brighter gold for links */
+        color: #C84A4A !important; /* Lighter red for links */
         text-decoration: none;
     }
     a:hover {
         text-decoration: underline;
-        color: #e7c888 !important;
+        color: #E06A6A !important;
     }
 
 </style>
