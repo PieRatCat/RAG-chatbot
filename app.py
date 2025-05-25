@@ -61,8 +61,8 @@ with st.sidebar:
     st.caption(f"Powered by LangChain & Google Gemini.") # This will use default caption styling unless you target it
 
 # --- URLs for avatar icons ---
-bot_avatar = "icon2.png"
-user_avatar = "icon1.png"
+bot_avatar = "bot.png"
+user_avatar = "user.png"
 
 
 # --- Main Chat Interface ---
