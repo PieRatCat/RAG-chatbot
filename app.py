@@ -1,3 +1,12 @@
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    print("Successfully overridden sqlite3 with pysqlite3-binary.")
+except ImportError:
+    print("pysqlite3-binary not found, using system sqlite3. This might lead to version issues with ChromaDB.")
+    pass # Or handle the error more explicitly if pysqlite3-binary is critical
+
 import streamlit as st
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
