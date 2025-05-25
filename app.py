@@ -16,169 +16,28 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 
 # --- Style Configuration ---
-dragon_age_theme_css = """
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Sorts+Mill+Goudy&display=swap');
 
-    /* Base App Styling */
-    .stApp {
-        background-color: #1A1D24; /* Very dark blue/grey */
-        /* For a subtle texture, you might try a repeating very dark pattern if you host it, or a CSS gradient */
-        /* background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("your_subtle_dark_texture.png"); */
-        color: #D1C7B8; /* Aged parchment text */
-        font-family: 'Sorts Mill Goudy', serif;
-    }
+# --- THIS MUST BE THE FIRST STREAMLIT COMMAND ---
+st.set_page_config(
+    page_title="Brother Genitivi's Dragon Age Archives",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-    /* Sidebar Styling */
-    section[data-testid="stSidebar"] > div:first-child {
-        background-color: #121418 !important; /* Almost black */
-        border-right: 2px solid #4A4F58; /* Metallic grey border */
-    }
-    
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2, 
-    section[data-testid="stSidebar"] h3 {
-        color: #D4AF37 !important; /* Gold for sidebar headers */
-        font-family: 'Cinzel Decorative', cursive;
-    }
-    section[data-testid="stSidebar"] .stMarkdown p,
-    section[data-testid="stSidebar"] label {
-        color: #A39B8B !important; /* Secondary text color for sidebar content */
-        font-family: 'Sorts Mill Goudy', serif;
-    }
+# --- Function to load local CSS file ---
+def local_css(file_name):
+    try:
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.error(f"CSS file not found: {file_name}. Please ensure it's in the correct path.")
+    except Exception as e:
+        st.error(f"An error occurred while loading CSS file {file_name}: {e}")
 
-    /* Custom Themed Boxes for Sidebar (Disclaimer, About) */
-    .sidebar-themed-box {
-        background-color: rgba(30, 33, 40, 0.7); /* Darker, slightly transparent */
-        border: 1px solid #D4AF37; /* Gold border */
-        color: #D1C7B8 !important; 
-        padding: 1em;
-        border-radius: 4px; /* Sharper edges */
-        margin-bottom: 1em;
-    }
-    .sidebar-themed-box h3 {
-        color: #D4AF37 !important;
-        font-family: 'Cinzel Decorative', cursive !important;
-        margin-top: 0;
-        border-bottom: 1px solid #4A4F58;
-        padding-bottom: 0.3em;
-    }
-    .sidebar-themed-box p {
-        color: #D1C7B8 !important;
-        font-family: 'Sorts Mill Goudy', serif !important;
-        line-height: 1.6;
-    }
+# Load the custom CSS for styling the sidebar and other elements
+local_css("style.css")
 
 
-    /* Main Content Headers */
-    .main h1, .main h2, .main h3 {
-        color: #D4AF37; /* Gold for main headers */
-        font-family: 'Cinzel Decorative', cursive;
-        border-bottom: 2px solid #4A4F58;
-        padding-bottom: 0.3em;
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Subtle text shadow */
-    }
-    .stCaption {
-        color: #A39B8B !important;
-    }
-
-    /* Chat Input Area */
-    .stChatInputContainer { 
-        background-color: #121418; /* Match sidebar for contrast */
-        border-top: 2px solid #D4AF37 !important;
-    }
-    div[data-testid="stChatInputTextArea"] textarea {
-        background-color: #23272F !important;
-        color: #D1C7B8 !important;
-        border: 1px solid #4A4F58 !important;
-        border-radius: 4px !important;
-        font-family: 'Sorts Mill Goudy', serif !important;
-    }
-    div[data-testid="stChatInputTextArea"] textarea::placeholder {
-        color: #A39B8B !important;
-    }
-    button[data-testid="stChatInputSubmitButton"] { 
-        background-color: #D4AF37 !important; /* Gold button */
-        color: #121418 !important; /* Dark text on gold */
-        border: 1px solid #4A4F58 !important;
-        border-radius: 4px !important;
-    }
-    button[data-testid="stChatInputSubmitButton"]:hover {
-        background-color: #EACD80 !important; /* Lighter gold on hover */
-        border-color: #D4AF37 !important;
-    }
-    button[data-testid="stChatInputSubmitButton"] svg {
-        fill: #121418 !important; /* Dark icon on gold button */
-    }
-
-
-    /* Chat Messages */
-    div[data-testid="chat-message-container"] {
-        border-radius: 6px; /* Slightly sharper */
-        padding: 0.85rem;
-        margin-bottom: 1rem;
-        border-width: 1px;
-        border-style: solid;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.3); /* Add some depth */
-    }
-
-    /* User chat messages */
-    div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="User message"]) {
-        background-color: #2C313A; /* Darker blue-grey */
-        border-color: #4A4F58; /* Metallic grey border */
-    }
-
-    /* Assistant chat messages (Brother Genitivi) */
-    div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="Assistant message"]) {
-        background-color: #23272F; /* Slightly lighter than user, but still dark */
-        /* For a parchment texture within the bubble, you'd ideally use a background-image.
-           This is harder to do just with color, but a slightly warmer off-black can suggest it.
-           Or background-image: url('your_parchment_texture_tile.png'); */
-        border-color: #D4AF37; /* Gold border for assistant */
-    }
-    
-    div[data-testid="chat-avatar-container"] {
-        background-color: #D4AF37 !important; /* Gold background for avatar circle */
-        color: #1A1D24 !important; /* Dark text/emoji color for avatar */
-    }
-
-    /* Spinner text color */
-    .stSpinner > div > div {
-        color: #D4AF37 !important; /* Gold for spinner text */
-        font-family: 'Cinzel Decorative', cursive !important;
-    }
-
-    /* Markdown links */
-    a, a:visited {
-        color: #EACD80 !important; /* Brighter gold for links */
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-        color: #FFF0C0 !important; /* Even lighter gold on hover */
-    }
-    
-    /* General button styling (if you add other st.buttons) */
-    .stButton>button:not([data-testid="stChatInputSubmitButton"]) { /* Exclude chat send button */
-        border: 1px solid #D4AF37;
-        background-color: transparent;
-        color: #D4AF37;
-        border-radius: 4px;
-    }
-    .stButton>button:not([data-testid="stChatInputSubmitButton"]):hover {
-        border-color: #EACD80;
-        background-color: rgba(212, 175, 55, 0.1);
-        color: #EACD80;
-    }
-
-</style>
-"""
-
-
-
-# --- Streamlit App UI ---
-st.set_page_config(page_title="Brother Genitivi's Dragon Age Archives", layout="wide", initial_sidebar_state="expanded")
-st.markdown(dragon_age_theme_css, unsafe_allow_html=True)
 # --- Disclaimer Text ---
 DISCLAIMER_TEXT = (
     "This is a non-commercial student project created for educational purposes. "
