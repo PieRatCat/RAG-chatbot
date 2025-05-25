@@ -60,6 +60,11 @@ with st.sidebar:
     # You can still add other elements to the sidebar if needed
     st.caption(f"Powered by LangChain & Google Gemini.") # This will use default caption styling unless you target it
 
+# --- URLs for avatar icons ---
+bot_avatar = "icon1.png"
+user_avatar = "icon2.png"
+
+
 # --- Main Chat Interface ---
 st.title("Brother Genitivi's Dragon Age Archives")
 st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your queries about the Dragon Age, and I shall consult my records.")
@@ -202,11 +207,11 @@ if rag_chain_instance:
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": user_query})
         # Display user message
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar=user_avatar):
             st.markdown(user_query)
 
         # Display Brother Genitivi's thinking message and get response
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=bot_avatar):
             with st.spinner("Brother Genitivi is diligently consulting his extensive records and codices..."):
                 try:
                     response = rag_chain_instance.invoke(user_query)
