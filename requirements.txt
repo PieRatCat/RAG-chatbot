@@ -1,6 +1,5 @@
 streamlit
 langchain
 langchain-google-genai
-langchain_chroma
-protobuf==3.20.3
-sqlite3 >= 3.35.0
+langchain-chroma
+pypdf

@@ -1,8 +1,5 @@
-# app.py
 import streamlit as st
 import os
-
-# --- LangChain and Google Components ---
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
@@ -32,9 +29,7 @@ PROJECT_ABOUT_TEXT = (
     "It answers questions based on Dragon Age game guides, in the persona of Brother Genitivi."
 )
 
-
-# --- Function to Load/Initialize RAG Chain (Cached) ---
-@st.cache_resource # Cache the RAG chain to avoid re-initializing on every interaction
+@st.cache_resource # Cache the RAG chain to avoid re-initialising on every interaction
 def get_rag_chain():
     """
     Initializes and returns the RAG chain.
@@ -71,7 +66,7 @@ def get_rag_chain():
 
         # 3. Initialize LLM for Generation
         llm = ChatGoogleGenerativeAI(model=GENERATION_MODEL_NAME, temperature=0.3)
-        print(f"LLM '{GENERATION_MODEL_NAME}' initialized.")
+        print(f"LLM '{GENERATION_MODEL_NAME}' initialised.")
 
         # 4. Create a Retriever
         retriever = vector_store.as_retriever(search_kwargs={"k": 3}) # Retrieve top 3 chunks
@@ -130,9 +125,9 @@ Answer the user's question based *only* on the provided context below.
 
     except Exception as e:
         # Log detailed error to console for debugging when deploying
-        print(f"CRITICAL ERROR initializing RAG chain: {type(e).__name__} - {e}")
+        print(f"CRITICAL ERROR initialising RAG chain: {type(e).__name__} - {e}")
         # Display a user-friendly error in the Streamlit app
-        st.error(f"Failed to initialize the chatbot's knowledge core. Error: {type(e).__name__}. Please check logs or contact support.")
+        st.error(f"Failed to initialise the chatbot's knowledge core. Error: {type(e).__name__}. Please check logs or contact support.")
         return None
 
 # --- Streamlit App UI ---
@@ -146,10 +141,10 @@ with st.sidebar:
     st.header("Disclaimer")
     st.warning(DISCLAIMER_TEXT)
     st.markdown("---")
-    st.caption(f"Powered by LangChain & Google Gemini. ChromaDB persist dir: '{CHROMA_PERSIST_DIRECTORY}'")
+    st.caption(f"Powered by LangChain & Google Gemini.")
 
 # --- Main Chat Interface ---
-st.title("📜 Brother Genitivi's Dragon Age Archives 🐉")
+st.title("Brother Genitivi's Dragon Age Archives")
 st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your queries about the Dragon Age, and I shall consult my records.")
 
 # Attempt to load the RAG chain
@@ -157,7 +152,7 @@ st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your que
 rag_chain_instance = get_rag_chain()
 
 if rag_chain_instance:
-    # Initialize chat history in session state if it doesn't exist
+    # Initialise chat history in session state if it doesn't exist
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "Greetings! I am Brother Genitivi. How may I assist you with your inquiries into the annals of Thedas today?"}]
 
