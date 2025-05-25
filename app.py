@@ -41,13 +41,13 @@ local_css("style.css")
 # --- Disclaimer Text ---
 DISCLAIMER_TEXT = (
     "Disclaimer: This is a non-commercial student project created for educational purposes. "
-    "The chatbot's knowledge is based on Dragon Age game guides, the copyrights for which "
+    "The chatbot's knowledge is based on Dragon Age game guides and in-game Codex entries, the copyrights for which "
     "belong to their respective owners (BioWare/EA). No copyright infringement is intended."
 )
 PROJECT_ABOUT_TEXT = (
     "This chatbot is a project for the DS24 Deep Learning course, demonstrating a "
     "Retrieval Augmented Generation (RAG) system with Google's Gemini models and LangChain. "
-    "It answers questions based on Dragon Age game guides, from Origins to Inquisition, in the persona of Brother Genitivi." 
+    "It answers questions about the Dragon Age games, from Origins to Inquisition, in the persona of Brother Genitivi." 
     )
 
 # --- Sidebar ---
