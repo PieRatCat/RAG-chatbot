@@ -40,7 +40,7 @@ local_css("style.css")
 
 # --- Disclaimer Text ---
 DISCLAIMER_TEXT = (
-    "This is a non-commercial student project created for educational purposes. "
+    "Disclaimer: This is a non-commercial student project created for educational purposes. "
     "The chatbot's knowledge is based on Dragon Age game guides, the copyrights for which "
     "belong to their respective owners (BioWare/EA). No copyright infringement is intended."
 )
@@ -54,11 +54,11 @@ PROJECT_ABOUT_TEXT = (
 with st.sidebar:
     # Using st.markdown to apply the custom class
     st.markdown(f'<div class="sidebar-themed-box">{PROJECT_ABOUT_TEXT}</div>', unsafe_allow_html=True)
-    st.markdown("---") # A visual divider (optional)
+    
     st.markdown(f'<div class="sidebar-themed-box">{DISCLAIMER_TEXT}</div>', unsafe_allow_html=True)
     
-    # You can still add other elements to the sidebar if needed
-    st.caption(f"Powered by LangChain & Google Gemini.") # This will use default caption styling unless you target it
+    
+    st.caption(f"Powered by LangChain & Google Gemini.")
 
 # --- URLs for avatar icons ---
 bot_avatar = "bot.png"
@@ -67,8 +67,6 @@ user_avatar = "user.png"
 
 # --- Main Chat Interface ---
 st.title("Brother Genitivi's Dragon Age Archives")
-st.caption("Greetings, seeker of knowledge! I am Brother Genitivi. Pose your queries about the Dragon Age, and I shall consult my records.")
-
 
 # --- Configuration ---
 if "GOOGLE_API_KEY" not in os.environ:

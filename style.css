@@ -3,22 +3,22 @@
 
 /* Base App Styling */
 div[data-testid="stAppViewContainer"], .stApp {
-    background-color: #1A1D24; /* Very dark blue/grey */
-    color: #D1C7B8; /* Aged parchment text for general app */
+    background-color: #1A1D24;
+    color: #D1C7B8;
     font-family: 'Sorts Mill Goudy', serif !important; /* Base font for the app */
 }
 
 /* --- Sidebar Styling --- */
 section[data-testid="stSidebar"] > div:first-child {
-    background-color: #121418 !important; /* Almost black for sidebar */
-    border-right: 2px solid #4A4F58; /* Metallic grey border */
+    background-color: #121418 !important;
+    border-right: 2px solid #4A4F58;
 }
 
 /* General text and labels in sidebar should use Sorts Mill Goudy */
 section[data-testid="stSidebar"] .stMarkdown p,
 section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] { /* Apply to sidebar container itself for inheritance */
-    color: #A39B8B !important; /* Secondary text color for sidebar content */
+section[data-testid="stSidebar"] { 
+    color: #A39B8B !important; 
     font-family: 'Sorts Mill Goudy', serif !important;
 }
 
@@ -26,30 +26,30 @@ section[data-testid="stSidebar"] { /* Apply to sidebar container itself for inhe
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 {
-    color: #D4AF37 !important; /* Gold for sidebar headers */
+    color: #D4AF37 !important;
     font-family: 'Cinzel Decorative', cursive !important;
 }
 
 /* Custom Themed Boxes for Sidebar (Disclaimer, About) */
 .sidebar-themed-box {
-    background-color: rgba(30, 33, 40, 0.7); /* Darker, slightly transparent */
-    border: 1px solid #D4AF37; /* Gold border */
-    color: #D1C7B8 !important; /* Ensure text color consistency */
+    background-color: rgba(30, 33, 40, 0.7);
+    border: 1px solid #4A4F58;
+    color: #D1C7B8 !important; 
     padding: 1em;
     border-radius: 4px;
     margin-bottom: 1em;
 }
 .sidebar-themed-box h3 { /* Headers (like ### Disclaimer) inside the custom box */
     font-family: 'Cinzel Decorative', cursive !important;
-    color: #D4AF37 !important; /* Gold */
+    color: #D4AF37 !important; 
     margin-top: 0;
     border-bottom: 1px solid #4A4F58;
     padding-bottom: 0.3em;
-    font-size: 1.1em; /* Slightly larger than default h3 if needed */
+    font-size: 1.1em;
 }
 .sidebar-themed-box p { /* Paragraphs inside the custom box */
     font-family: 'Sorts Mill Goudy', serif !important;
-    color: #D1C7B8 !important; /* Aged parchment text */
+    color: #D1C7B8 !important;
     line-height: 1.6;
 }
 
@@ -59,17 +59,17 @@ section[data-testid="stSidebar"] h3 {
 /* Main Page Title (st.title()) */
 h1[id="brother-genitivis-dragon-age-archives"],
 div[data-testid="stAppViewContainer"] div[data-testid="stMainBlockContainer"] h1:first-of-type {
-    color: #D4AF37 !important; /* Gold for main title */
+    color: #D4AF37 !important; 
     font-family: 'Cinzel Decorative', cursive !important;
     border-bottom: 2px solid #4A4F58 !important;
     padding-bottom: 0.3em !important;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.5) !important;
 }
 
-/* Other H2, H3 in main content (if you use st.header or st.subheader) */
+/* Other H2, H3 in main content */
 div[data-testid="stAppViewContainer"] div[data-testid="stMainBlockContainer"] h2,
 div[data-testid="stAppViewContainer"] div[data-testid="stMainBlockContainer"] h3 {
-    color: #D4AF37 !important; /* Gold */
+    color: #D4AF37 !important;
     font-family: 'Cinzel Decorative', cursive !important;
     border-bottom: 1px solid #4A4F58;
     padding-bottom: 0.2em;
@@ -79,21 +79,20 @@ div[data-testid="stAppViewContainer"] div[data-testid="stMainBlockContainer"] h3
 /* General Paragraphs in Main App Area (outside chat, e.g. from st.write or st.markdown) */
 div[data-testid="stAppViewContainer"] div[data-testid="stMainBlockContainer"] > div[data-testid="stVerticalBlockBorderWrapper"] > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"] > div[data-testid="stMarkdown"] > div[data-testid="stMarkdownContainer"] p {
     font-family: 'Sorts Mill Goudy', serif !important;
-    color: #D1C7B8 !important; /* Aged parchment text */
+    color: #D1C7B8 !important; 
 }
 
 /* Captions (st.caption) */
 .stCaption {
-    color: #A39B8B !important; /* Secondary text color */
-    font-family: 'Sorts Mill Goudy', serif !important; /* Ensure caption font */
+    color: #A39B8B !important;
+    font-family: 'Sorts Mill Goudy', serif !important; 
 }
-
 
 /* --- Chat Interface Styling --- */
 
 /* Chat Input Area */
 .stChatInputContainer {
-    background-color: #121418; /* Match sidebar for contrast */
+    background-color: #121418;
     border-top: 2px solid #D4AF37 !important;
 }
 div[data-testid="stChatInputTextArea"] textarea {
@@ -102,26 +101,25 @@ div[data-testid="stChatInputTextArea"] textarea {
     background-color: #23272F !important;
     border: 1px solid #4A4F58 !important;
     border-radius: 4px !important;
-    font-size: 1.05em !important; /* Slightly larger font for input */
+    font-size: 1.05em !important; 
 }
 div[data-testid="stChatInputTextArea"] textarea::placeholder {
     color: #A39B8B !important;
     font-family: 'Sorts Mill Goudy', serif !important;
 }
 button[data-testid="stChatInputSubmitButton"] {
-    background-color: #D4AF37 !important; /* Gold button */
-    color: #121418 !important; /* Dark text on gold */
+    background-color: #D4AF37 !important; 
+    color: #121418 !important; 
     border: 1px solid #4A4F58 !important;
     border-radius: 4px !important;
 }
 button[data-testid="stChatInputSubmitButton"]:hover {
-    background-color: #EACD80 !important; /* Lighter gold on hover */
+    background-color: #EACD80 !important; 
     border-color: #D4AF37 !important;
 }
 button[data-testid="stChatInputSubmitButton"] svg {
-    fill: #121418 !important; /* Dark icon on gold button */
+    fill: #121418 !important; 
 }
-
 /* Chat Messages */
 div[data-testid="chat-message-container"] {
     border-radius: 6px;
@@ -132,43 +130,41 @@ div[data-testid="chat-message-container"] {
     box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
 }
 
-/* Text content within chat messages - Font, Color, and Size */
+/* Text content within chat messages - Font, Colour, and Size */
 div[data-testid="stChatMessageContent"] div[data-testid="stMarkdownContainer"] p,
-div[data-testid="stChatMessageContent"] div[data-testid="stMarkdownContainer"] { /* Target container for non-p text too */
+div[data-testid="stChatMessageContent"] div[data-testid="stMarkdownContainer"] { 
     font-family: 'Sorts Mill Goudy', serif !important;
-    color: #D1C7B8 !important; /* Aged parchment text for chat content */
+    color: #D1C7B8 !important; 
     line-height: 1.6;
-    font-size: 1.1em !important; /* Increased font size for chat text */
+    font-size: 1.1em !important; 
 }
 
 /* User chat messages */
 div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="User message"]) {
-    background-color: #2C313A; /* Darker blue-grey */
-    border-color: #4A4F58; /* Metallic grey border */
+    background-color: #2C313A; 
+    border-color: #4A4F58; 
 }
 
-/* Assistant chat messages (Brother Genitivi) */
+/* Assistant chat messages */
 div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="Assistant message"]) {
-    background-color: #23272F; /* Slightly lighter than user, but still dark */
-    border-color: #D4AF37; /* Gold border for assistant */
+    background-color: #23272F; 
+    border-color: #D4AF37; 
 }
 
-/* Chat Avatar Styling - Updated for IMAGES */
+/* Chat Avatar Styling */
 div[data-testid="chat-avatar-container"] {
-    background-color: transparent !important; /* Make background transparent if PNGs have transparency */
-    /* Or keep a themed background like #D4AF37 if your icons look good on it */
-    /* background-color: #D4AF37 !important; */
+    background-color: #D4AF37 !important;
     
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Keeps images neatly in the circle */
+    overflow: hidden;
     width: 2.5rem; /* Default Streamlit avatar size */
     height: 2.5rem; /* Default Streamlit avatar size */
-    padding: 0; /* Remove padding if any was set for emoji backgrounds */
+    padding: 0;
 }
 
-div[data-testid="chat-avatar-container"] img { /* Style the image itself within the avatar container */
+div[data-testid="chat-avatar-container"] img { 
     max-width: 100%;
     max-height: 100%;
     object-fit: cover; /* Or 'contain' if 'cover' crops too much - depends on icon aspect ratio */
@@ -177,30 +173,30 @@ div[data-testid="chat-avatar-container"] img { /* Style the image itself within 
 
 /* Spinner text color */
 .stSpinner > div > div {
-    color: #D4AF37 !important; /* Gold for spinner text */
+    color: #D4AF37 !important; 
     font-family: 'Cinzel Decorative', cursive !important;
 }
 
 /* Markdown links */
 a, a:visited {
-    color: #EACD80 !important; /* Brighter gold for links */
+    color: #EACD80 !important; 
     text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
-    color: #FFF0C0 !important; /* Even lighter gold on hover */
+    color: #FFF0C0 !important; 
 }
 
-/* General button styling (if you add other st.buttons) */
-.stButton>button:not([data-testid="stChatInputSubmitButton"]) { /* Exclude chat send button */
+/* General button styling */
+.stButton>button:not([data-testid="stChatInputSubmitButton"]) { 
     border: 1px solid #D4AF37;
     background-color: transparent;
     color: #D4AF37;
     border-radius: 4px;
-    font-family: 'Sorts Mill Goudy', serif !important; /* Ensure themed font */
+    font-family: 'Sorts Mill Goudy', serif !important; 
 }
 .stButton>button:not([data-testid="stChatInputSubmitButton"]):hover {
     border-color: #EACD80;
-    background-color: rgba(212, 175, 55, 0.1); /* Subtle gold glow on hover */
+    background-color: rgba(212, 175, 55, 0.1); 
     color: #EACD80;
 }
