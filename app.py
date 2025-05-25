@@ -16,158 +16,166 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 
 # --- Style Configuration ---
-# In your app.py, near the top
-
 dragon_age_theme_css = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Sorts+Mill+Goudy&display=swap');
 
     /* Base App Styling */
     .stApp {
-        background-color: #1C1C1C; /* Very dark grey */
-        color: #EAEAEA; /* Light grey/Off-white text */
-        font-family: 'IM Fell English', serif;
+        background-color: #1A1D24; /* Very dark blue/grey */
+        /* For a subtle texture, you might try a repeating very dark pattern if you host it, or a CSS gradient */
+        /* background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("your_subtle_dark_texture.png"); */
+        color: #D1C7B8; /* Aged parchment text */
+        font-family: 'Sorts Mill Goudy', serif;
     }
 
     /* Sidebar Styling */
-    /* Attempt to target sidebar specifically for background */
     section[data-testid="stSidebar"] > div:first-child {
-        background-color: #161616 !important; /* Slightly darker grey for sidebar */
+        background-color: #121418 !important; /* Almost black */
+        border-right: 2px solid #4A4F58; /* Metallic grey border */
     }
     
-    /* Sidebar Headers and Text */
-    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h1,
     section[data-testid="stSidebar"] h2, 
-    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h3 {
+        color: #D4AF37 !important; /* Gold for sidebar headers */
+        font-family: 'Cinzel Decorative', cursive;
+    }
     section[data-testid="stSidebar"] .stMarkdown p,
-    section[data-testid="stSidebar"] label { /* For widget labels */
-        color: #EAEAEA !important; /* Light grey text in sidebar */
-        font-family: 'Cinzel', serif;
+    section[data-testid="stSidebar"] label {
+        color: #A39B8B !important; /* Secondary text color for sidebar content */
+        font-family: 'Sorts Mill Goudy', serif;
+    }
+
+    /* Custom Themed Boxes for Sidebar (Disclaimer, About) */
+    .sidebar-themed-box {
+        background-color: rgba(30, 33, 40, 0.7); /* Darker, slightly transparent */
+        border: 1px solid #D4AF37; /* Gold border */
+        color: #D1C7B8 !important; 
+        padding: 1em;
+        border-radius: 4px; /* Sharper edges */
+        margin-bottom: 1em;
+    }
+    .sidebar-themed-box h3 {
+        color: #D4AF37 !important;
+        font-family: 'Cinzel Decorative', cursive !important;
+        margin-top: 0;
+        border-bottom: 1px solid #4A4F58;
+        padding-bottom: 0.3em;
+    }
+    .sidebar-themed-box p {
+        color: #D1C7B8 !important;
+        font-family: 'Sorts Mill Goudy', serif !important;
+        line-height: 1.6;
     }
 
 
     /* Main Content Headers */
-    .main h1, .main h2, .main h3 { /* More specific selectors for main content if needed */
-        color: #9D2A2A; /* Muted Deep Red for main headers */
-        font-family: 'Cinzel', serif;
-        border-bottom: 1px solid #7C2222; /* Darker Muted Red border */
+    .main h1, .main h2, .main h3 {
+        color: #D4AF37; /* Gold for main headers */
+        font-family: 'Cinzel Decorative', cursive;
+        border-bottom: 2px solid #4A4F58;
         padding-bottom: 0.3em;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Subtle text shadow */
     }
     .stCaption {
-        color: #AAAAAA !important; /* Lighter grey for captions */
+        color: #A39B8B !important;
     }
-
-    /* Overall Chat Area - if you want it distinct from main app background */
-    /* This selector might need adjustment based on Streamlit's evolving structure */
-    /* For now, chat messages will sit on the .stApp background */
-    /* If you want a distinct chat area background:
-    div.stChatFloatingInputContainer + div > div > div {
-        background-color: #2B2B2B; /* Dark grey for chat area */
-        padding: 1rem;
-        border-radius: 0.5rem;
-    }
-    */
 
     /* Chat Input Area */
     .stChatInputContainer { 
-        background-color: #161616; /* Darker base for input area */
-        border-top: 2px solid #9D2A2A !important;
+        background-color: #121418; /* Match sidebar for contrast */
+        border-top: 2px solid #D4AF37 !important;
     }
-    /* Actual input field - selector might vary slightly with Streamlit versions */
     div[data-testid="stChatInputTextArea"] textarea {
-        background-color: #2B2B2B !important;
-        color: #EAEAEA !important;
-        border: 1px solid #7C2222 !important;
-        border-radius: 5px !important;
+        background-color: #23272F !important;
+        color: #D1C7B8 !important;
+        border: 1px solid #4A4F58 !important;
+        border-radius: 4px !important;
+        font-family: 'Sorts Mill Goudy', serif !important;
     }
     div[data-testid="stChatInputTextArea"] textarea::placeholder {
-        color: #AAAAAA !important;
+        color: #A39B8B !important;
     }
-    /* Send button - selector might vary */
     button[data-testid="stChatInputSubmitButton"] { 
-        background-color: #9D2A2A !important;
-        color: #EAEAEA !important;
-        border: 1px solid #7C2222 !important;
-        border-radius: 5px !important;
+        background-color: #D4AF37 !important; /* Gold button */
+        color: #121418 !important; /* Dark text on gold */
+        border: 1px solid #4A4F58 !important;
+        border-radius: 4px !important;
     }
     button[data-testid="stChatInputSubmitButton"]:hover {
-        background-color: #B83A3A !important; /* Slightly lighter red on hover */
-        border-color: #9D2A2A !important;
+        background-color: #EACD80 !important; /* Lighter gold on hover */
+        border-color: #D4AF37 !important;
     }
-    button[data-testid="stChatInputSubmitButton"] svg { /* Ensure send button icon is visible */
-        fill: #EAEAEA !important;
-    }
- /* Custom Themed Boxes for Sidebar */
-    .sidebar-themed-box {
-        background-color: rgba(50, 50, 50, 0.5); /* Dark grey, semi-transparent */
-        border: 1px solid #7C2222; /* Darker Muted Red border */
-        color: #EAEAEA !important; /* Text color */
-        padding: 1em;
-        border-radius: 0.3rem;
-        margin-bottom: 1em; /* Space between boxes */
-        font-family: 'IM Fell English', serif; /* Ensure consistent font */
-    }
-
-    .sidebar-themed-box h3 { /* If you use markdown h3 inside these boxes */
-        color: #9D2A2A !important; /* Muted Deep Red for headers inside the box */
-        font-family: 'Cinzel', serif !important;
-        margin-top: 0;
-        border-bottom: 1px solid #7C2222;
-        padding-bottom: 0.3em;
-    }
-    
-    .sidebar-themed-box p { /* Paragraphs inside the box */
-        color: #EAEAEA !important;
-        font-family: 'IM Fell English', serif !important;
-        line-height: 1.6;
+    button[data-testid="stChatInputSubmitButton"] svg {
+        fill: #121418 !important; /* Dark icon on gold button */
     }
 
 
     /* Chat Messages */
     div[data-testid="chat-message-container"] {
-        border-radius: 10px;
-        padding: 0.75rem;
-        margin-bottom: 0.75rem;
+        border-radius: 6px; /* Slightly sharper */
+        padding: 0.85rem;
+        margin-bottom: 1rem;
         border-width: 1px;
         border-style: solid;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.3); /* Add some depth */
     }
 
     /* User chat messages */
     div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="User message"]) {
-        background-color: #3D3D3D; /* Medium-dark grey for user */
-        border-color: #7C2222; /* Darker red border */
+        background-color: #2C313A; /* Darker blue-grey */
+        border-color: #4A4F58; /* Metallic grey border */
     }
 
-    /* Assistant chat messages */
+    /* Assistant chat messages (Brother Genitivi) */
     div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="Assistant message"]) {
-        background-color: #333333; /* Slightly darker grey for assistant */
-        border-color: #9D2A2A; /* Muted deep red border */
+        background-color: #23272F; /* Slightly lighter than user, but still dark */
+        /* For a parchment texture within the bubble, you'd ideally use a background-image.
+           This is harder to do just with color, but a slightly warmer off-black can suggest it.
+           Or background-image: url('your_parchment_texture_tile.png'); */
+        border-color: #D4AF37; /* Gold border for assistant */
     }
     
-    /* Styling for the avatar icons in chat messages */
-    /* This selector is more robust for Streamlit 1.18+ for default emoji avatars */
     div[data-testid="chat-avatar-container"] {
-        background-color: #9D2A2A !important; /* Muted red background for avatar circle */
-        color: #EAEAEA !important; /* Light text/emoji color for avatar */
+        background-color: #D4AF37 !important; /* Gold background for avatar circle */
+        color: #1A1D24 !important; /* Dark text/emoji color for avatar */
     }
 
     /* Spinner text color */
-    .stSpinner > div > div { /* This targets the text node of the spinner */
-        color: #9D2A2A !important; /* Muted red for spinner text */
+    .stSpinner > div > div {
+        color: #D4AF37 !important; /* Gold for spinner text */
+        font-family: 'Cinzel Decorative', cursive !important;
     }
 
     /* Markdown links */
     a, a:visited {
-        color: #C84A4A !important; /* Lighter red for links */
+        color: #EACD80 !important; /* Brighter gold for links */
         text-decoration: none;
     }
     a:hover {
         text-decoration: underline;
-        color: #E06A6A !important;
+        color: #FFF0C0 !important; /* Even lighter gold on hover */
+    }
+    
+    /* General button styling (if you add other st.buttons) */
+    .stButton>button:not([data-testid="stChatInputSubmitButton"]) { /* Exclude chat send button */
+        border: 1px solid #D4AF37;
+        background-color: transparent;
+        color: #D4AF37;
+        border-radius: 4px;
+    }
+    .stButton>button:not([data-testid="stChatInputSubmitButton"]):hover {
+        border-color: #EACD80;
+        background-color: rgba(212, 175, 55, 0.1);
+        color: #EACD80;
     }
 
 </style>
 """
+
+
+
 # --- Streamlit App UI ---
 st.set_page_config(page_title="Brother Genitivi's Dragon Age Archives", layout="wide", initial_sidebar_state="expanded")
 st.markdown(dragon_age_theme_css, unsafe_allow_html=True)
