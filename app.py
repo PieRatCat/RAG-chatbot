@@ -45,18 +45,6 @@ dragon_age_theme_css = """
         font-family: 'Cinzel', serif;
     }
 
-    /* Sidebar st.info() and st.warning() boxes */
-    section[data-testid="stSidebar"] .stAlert {
-        background-color: rgba(70, 40, 40, 0.6) !important; /* Dark red, semi-transparent */
-        border: 1px solid #9D2A2A !important; /* Muted Deep Red border */
-        color: #EAEAEA !important; /* Text color for alerts */
-        border-radius: 0.3rem;
-    }
-    /* Ensure icon color in sidebar alerts also fits if possible */
-    section[data-testid="stSidebar"] .stAlert svg {
-        fill: #EAEAEA !important;
-    }
-
 
     /* Main Content Headers */
     .main h1, .main h2, .main h3 { /* More specific selectors for main content if needed */
@@ -108,6 +96,30 @@ dragon_age_theme_css = """
     }
     button[data-testid="stChatInputSubmitButton"] svg { /* Ensure send button icon is visible */
         fill: #EAEAEA !important;
+    }
+ /* Custom Themed Boxes for Sidebar */
+    .sidebar-themed-box {
+        background-color: rgba(50, 50, 50, 0.5); /* Dark grey, semi-transparent */
+        border: 1px solid #7C2222; /* Darker Muted Red border */
+        color: #EAEAEA !important; /* Text color */
+        padding: 1em;
+        border-radius: 0.3rem;
+        margin-bottom: 1em; /* Space between boxes */
+        font-family: 'IM Fell English', serif; /* Ensure consistent font */
+    }
+
+    .sidebar-themed-box h3 { /* If you use markdown h3 inside these boxes */
+        color: #9D2A2A !important; /* Muted Deep Red for headers inside the box */
+        font-family: 'Cinzel', serif !important;
+        margin-top: 0;
+        border-bottom: 1px solid #7C2222;
+        padding-bottom: 0.3em;
+    }
+    
+    .sidebar-themed-box p { /* Paragraphs inside the box */
+        color: #EAEAEA !important;
+        font-family: 'IM Fell English', serif !important;
+        line-height: 1.6;
     }
 
 
@@ -173,13 +185,13 @@ PROJECT_ABOUT_TEXT = (
 
 # --- Sidebar ---
 with st.sidebar:
-    st.header("About this Archive")
-    st.info(PROJECT_ABOUT_TEXT)
-    st.markdown("---")
-    st.header("Disclaimer")
-    st.warning(DISCLAIMER_TEXT)
-    st.markdown("---")
-    st.caption(f"Powered by LangChain & Google Gemini.")
+    # Using st.markdown to apply the custom class
+    st.markdown(f'<div class="sidebar-themed-box">{PROJECT_ABOUT_TEXT}</div>', unsafe_allow_html=True)
+    st.markdown("---") # A visual divider (optional)
+    st.markdown(f'<div class="sidebar-themed-box">{DISCLAIMER_TEXT}</div>', unsafe_allow_html=True)
+    
+    # You can still add other elements to the sidebar if needed
+    st.caption(f"Powered by LangChain & Google Gemini.") # This will use default caption styling unless you target it
 
 # --- Main Chat Interface ---
 st.title("Brother Genitivi's Dragon Age Archives")
