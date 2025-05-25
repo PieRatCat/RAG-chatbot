@@ -15,6 +15,123 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 
+# --- Style Configuration ---
+dragon_age_theme_css = """
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English&display=swap');
+
+    /* Base App Styling - Targeting Streamlit's main block container */
+    .stApp {
+        background-color: #2a201b; /* Very dark, slightly warm brown */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)),
+                          url("https://www.transparenttextures.com/patterns/old-wall.png"); /* Subtle texture */
+        color: #e0dacd; /* Aged parchment text */
+        font-family: 'IM Fell English', serif;
+    }
+
+    /* Sidebar Styling */
+    .st-emotion-cache-16txtl3 { /* This selector targets the sidebar; may change with Streamlit versions */
+        background-color: #1e1a16 !important; /* Even darker brown for sidebar */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)),
+                          url("https://www.transparenttextures.com/patterns/worn-dots.png"); /* Different subtle texture */
+    }
+    .st-emotion-cache-16txtl3 h1, 
+    .st-emotion-cache-16txtl3 h2, 
+    .st-emotion-cache-16txtl3 h3,
+    .st-emotion-cache-16txtl3 .stMarkdown p { /* Targeting text within sidebar */
+        color: #c0a062 !important; /* Muted gold for sidebar text/headers */
+        font-family: 'Cinzel', serif;
+    }
+    .st-emotion-cache-16txtl3 .stAlert, .st-emotion-cache-16txtl3 .stInfo { /* Sidebar info/warning boxes */
+        background-color: rgba(60, 50, 40, 0.7) !important;
+        border: 1px solid #c0a062;
+        color: #e0dacd !important;
+    }
+
+
+    /* Main Content Headers */
+    h1, h2, h3 {
+        color: #8c1c1c; /* Deep Chantry red for main headers */
+        font-family: 'Cinzel', serif;
+        border-bottom: 1px solid #c0a062;
+        padding-bottom: 0.3em;
+    }
+    .stCaption {
+        color: #b0a090 !important; /* Lighter, muted color for captions */
+    }
+
+    /* Chat Input Area */
+    .stChatInputContainer { /* Target the container of the chat input */
+        background-color: #1e1a16; /* Darker base for input area */
+        border-top: 2px solid #c0a062 !important;
+    }
+    .st-emotion-cache-13y9j5f /* Actual input field, may change */ {
+        background-color: #3b3129 !important;
+        color: #e0dacd !important;
+        border: 1px solid #c0a062 !important;
+        border-radius: 5px !important;
+    }
+    .st-emotion-cache-13y9j5f::placeholder {
+        color: #b0a090 !important;
+    }
+    .stButton>button { /* Send button */
+        background-color: #8c1c1c !important;
+        color: #e0dacd !important;
+        border: 1px solid #c0a062 !important;
+        border-radius: 5px !important;
+    }
+    .stButton>button:hover {
+        background-color: #a82b2b !important;
+        border-color: #d4af37 !important;
+    }
+
+
+    /* Chat Messages */
+    div[data-testid="chat-message-container"] {
+        border-radius: 10px;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    /* User chat messages */
+    div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="User message"]) {
+        background-color: #4a3f35; /* User chat BG */
+        border-color: #c0a062;
+    }
+
+    /* Assistant chat messages */
+    div[data-testid="chat-message-container"]:has(div[data-testid="stChatMessageContent"][aria-label="Assistant message"]) {
+        background-color: #5a4a3a; /* Assistant chat BG - slightly lighter/warmer */
+        border-color: #8c1c1c;
+    }
+    
+    /* Styling for the avatar icons in chat messages */
+    .stChatMessage .st-emotion-cache- NNNN { /* You'll need to inspect to get the exact class for the avatar circle */
+        /* background-color: #c0a062 !important; */ /* Example: Gold background for avatar circle */
+        /* color: #1e1a16 !important; */ /* Dark text for emoji in avatar */
+    }
+
+    /* Spinner text color */
+    .stSpinner > div > div {
+        color: #c0a062 !important; /* Gold for spinner text */
+    }
+
+    /* Markdown links */
+    a, a:visited {
+        color: #d4af37 !important; /* Brighter gold for links */
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+        color: #e7c888 !important;
+    }
+
+</style>
+"""
+st.markdown(dragon_age_theme_css, unsafe_allow_html=True)
+
 # --- Configuration ---
 if "GOOGLE_API_KEY" not in os.environ:
     try:
