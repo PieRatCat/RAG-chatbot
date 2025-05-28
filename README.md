@@ -11,7 +11,7 @@ The project was created for the DS24 Deep Learning course.
 * teorifragor-dl-kk2.pdf: exam submission, answers to the theory questions. Ignore it unless you're my teacher.
 
 * chatbot.ipynb: Jupyter Notebook containing the Python code for data preprocessing: loading PDFs, chunking text, generating embeddings, and creating the ChromaDB vector store, as well as comments for course submission.  
-[View in nbviewer](https://nbviewer.org/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb)
+[View in nbviewer](https://nbviewer.org/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb)  
 [Open in Colab](https://colab.research.google.com/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb)
 
 * app.py: The main Streamlit application script that runs the chatbot interface and the RAG chain.  
