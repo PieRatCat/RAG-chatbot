@@ -6,9 +6,9 @@ The project was created for the DS24 Deep Learning course.
 
 ### Main Files & Directories
 
-* app.py: The main Streamlit application script that runs the chatbot interface and the RAG chain.
+* app.py: The main Streamlit application script that runs the chatbot interface and the RAG chain. Deployed in Streamlit Cloud at <https://da-chatbot.streamlit.app/>.
 
-* chatbot.ipynb: Jupyter Notebook containing the Python code for data preprocessing: loading PDFs, chunking text, generating embeddings, and creating the ChromaDB vector store.
+* chatbot.ipynb: Jupyter Notebook containing the Python code for data preprocessing: loading PDFs, chunking text, generating embeddings, and creating the ChromaDB vector store. [View the notebook in nbviewer](https://nbviewer.org/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb).
 
 * style.css: Contains the custom CSS rules for theming the Streamlit application.
 
