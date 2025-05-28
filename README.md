@@ -1,4 +1,6 @@
-# Dragon Age Lore RAG Chatbot ("Brother Genitivi's Dragon Age Archives")
+# Dragon Age lore RAG Chatbot 
+
+### "Brother Genitivi's Dragon Age Archives"
 
 This project is a Retrieval Augmented Generation (RAG) chatbot built to answer questions about the Dragon Age game series, based on content from PDF game guides. It uses LangChain, Google Gemini models, ChromaDB, and is presented as a Streamlit web application with a "Brother Genitivi" persona.  
 
@@ -6,9 +8,12 @@ The project was created for the DS24 Deep Learning course.
 
 ### Main Files & Directories
 
-* app.py: The main Streamlit application script that runs the chatbot interface and the RAG chain. Deployed in Streamlit Cloud at <https://da-chatbot.streamlit.app/>.
+* app.py: The main Streamlit application script that runs the chatbot interface and the RAG chain.  
+Deployed in Streamlit Cloud at [Brother Genitivi's Dragon Age Archives](https://da-chatbot.streamlit.app/).
 
-* chatbot.ipynb: Jupyter Notebook containing the Python code for data preprocessing: loading PDFs, chunking text, generating embeddings, and creating the ChromaDB vector store. [View the notebook in nbviewer](https://nbviewer.org/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb).
+* chatbot.ipynb: Jupyter Notebook containing the Python code for data preprocessing: loading PDFs, chunking text, generating embeddings, and creating the ChromaDB vector store.   
+[View in nbviewer](https://nbviewer.org/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb).  
+[Open in Colab](https://colab.research.google.com/github/PieRatCat/RAG-chatbot/blob/main/chatbot.ipynb)
 
 * style.css: Contains the custom CSS rules for theming the Streamlit application.
 
